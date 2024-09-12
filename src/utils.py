@@ -17,6 +17,10 @@ def show_help():
     print(help_message)
 
 def main():
+    """
+    This is the main function of the program.
+    It serves as the entry point for the application.
+    """
     pass
 
 if __name__ == '__main__':

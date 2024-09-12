@@ -90,13 +90,64 @@ def update_task(task_id, new_description):
             task['description'] = new_description 
             task['updatedAt'] = str(datetime.now()) 
             save_tasks(tasks) 
-            print(f'Tarea {task_id} actualizada exitosamente.')
+            print(f'Task {task_id} updated sucefully.')
             return
-    print(f'No se encontro una tarea con ID {task_id}.')
+    print(f'ID not found {task_id}.')
 
 
 def delete_task(task_id):
-    pass
+    """
+    Deletes a task with the given task_id.
+    Parameters:
+    - task_id (int): The ID of the task to be deleted.
+    Returns:
+    - None
+    Raises:
+    - None
+    """
+    tasks = load_tasks()
+    deleted_task = None
 
-def status_task(task_id):
-    pass
+    # Find the task with the given ID
+    for task in tasks:
+        if task['id'] == task_id:
+            deleted_task = task
+            break
+
+    if not deleted_task:
+        print(f'Task ID not found {task_id}.')
+        return
+
+    # delete the task with the given ID
+    tasks = [task for task in tasks if task['id'] != task_id]
+    save_tasks(tasks)
+    with open('deleted_tasks.json', 'a') as file: # save the deleted task to a separate file
+        json.dump(deleted_task, file, indent=4)
+        file.write('\n')
+    print(f'Tarea {task_id} eliminada.')
+
+def status_task(task_id, new_status):
+    """
+    Update the status of a task with the given task_id.
+    Parameters:
+    - task_id (int): The ID of the task to be updated.
+    - new_status (str): The new status to be assigned to the task.
+    Returns:
+    - None
+    Raises:
+    - None
+    """
+    valid_statuses = ['todo', 'in-progress', 'done']
+    if new_status not in valid_statuses:
+        print(f"Invalid status, please use one of this: {', '.join(valid_statuses)}")
+        return
+    tasks = load_tasks()
+    for task in tasks:
+        if task['id'] == task_id:
+            task['status'] = new_status
+            task['updatedAt'] = str(datetime.now())
+            save_tasks(tasks)
+            print(f'Task {task_id} updated sucefully.')
+            return
+    print(f'ID not found {task_id}')
+

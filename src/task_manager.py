@@ -7,20 +7,41 @@ import os
 
 TASK_FILE = 'tasks.json'
 
-# 1. Load tasks from file
 def load_tasks():
-    pass
+    """1. Load tasks from json file"""
+    if not os.path.exists(TASK_FILE):
+        return []
+    with open(TASKS_FILE, 'r') as file:
+        tasks = json.load(file)
 
-# 2. Save tasks to file
 def save_tasks(tasks):
-    pass    
+    """2. Save tasks to json file"""
+    with open(TASK_FILE, 'w') as file:
+        json.dump(tasks, file, indent=4)
 
-# 3. Add task to file
 def add_task(description):
-    pass
+    """3. Add a new task to json file"""
+    tasks = load_tasks()
+    task_id = len(tasks) + 1
+    task = {
+        'id': task_id,
+        'description': description,
+        'status': 'to-do',
+        'created_at': str(datetime.now()),
+        'updated_at': str(datetime.now())
+    }
+    tasks.append(task)
+    save_tasks(tasks)
+    return task
 
 def list_tasks():
-    pass
+    """4. List all tasks"""
+    tasks = load_tasks()
+    if tasks:
+        for task in tasks:
+            print(f"ID: {task['id']}, Description: {task['description']}, Status: {task['status']}")
+    else:
+        print("No tasks found")
 
 def update_task(task_id, new_description):
     pass

@@ -52,7 +52,7 @@ class TestCLI(unittest.TestCase):
         """
         main()  # Call the main CLI function
         output = mock_stdout.getvalue().strip()
-        self.assertIn("Tas added sucefully", output)
+        self.assertIn("Task added successfully", output)
         
         tasks = load_tasks()
         self.assertEqual(len(tasks), 1)

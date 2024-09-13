@@ -1,4 +1,6 @@
 import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.task_manager import load_tasks, add_task, update_task, delete_task, status_task
 
 
@@ -52,9 +54,9 @@ def main():
     command = sys.argv[1]
 
     if command == 'add':
-        # Check if the description is provided
+        # Check if the description is provided for the 'add' command
         if len(sys.argv) < 3:
-            print("Use: task-cli add <description>")
+            print("Usage: task-cli add <description>")
         else:
             description = ' '.join(sys.argv[2:])
             task = add_task(description)

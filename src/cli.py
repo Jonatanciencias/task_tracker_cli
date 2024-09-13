@@ -1,6 +1,7 @@
 """Command-line interface for Task Tracker CLI application."""
 
 import sys
+import os
 from task_manager import load_tasks, add_task, update_task, delete_task, status_task
 
 def show_help():

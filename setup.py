@@ -9,7 +9,7 @@ setup(
     install_requires=[],  # If you need to install any dependencies
     entry_points={
         'console_scripts': [
-            'task-cli=cli:main',  # Specify that the 'task-cli' command will execute the 'main' function in 'cli.py'
+            'task-cli=cli.py:main',  # Specify that the 'task-cli' command will execute the 'main' function in 'cli.py'
         ],
     },
 )

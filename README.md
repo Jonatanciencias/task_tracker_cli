@@ -66,10 +66,16 @@ git clone https://github.com/Jonatanciencias/task_tracker_cli.git
 cd task_tracker_cli
 ```
 
-3. Run the script:
+3. Install the project locally:
 
 ```bash
-python src/cli.py
+pip install .
+```
+
+4. Run the task tracker using the command task-cli:
+
+```bash
+task-cli add "Write documentation"
 ```
 
 ## Testing

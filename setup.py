@@ -5,11 +5,11 @@ setup(
     name="task-tracker-cli",
     version="1.0.0",
     packages=find_packages(where="src"),
-    package_dir={"": "src"},  # Indica que los módulos están en la carpeta `src`
-    install_requires=[],  # Si tienes dependencias, agrégalas aquí
+    package_dir={"": "src"},
+    install_requires=[],
     entry_points={
         'console_scripts': [
-            'task-cli=src.cli:main',  # Asegúrate de que el punto de entrada esté correctamente configurado
+            'task-cli=cli:main', 
         ],
     },
 )

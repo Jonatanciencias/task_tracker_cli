@@ -1,7 +1,8 @@
 # src/cli.py
 
 import sys
-from task_manager import load_tasks, add_task, update_task, delete_task, status_task
+from src.task_manager import load_tasks, add_task, update_task, delete_task, status_task
+
 
 def show_help():
     help_message = """

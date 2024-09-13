@@ -10,15 +10,21 @@ TASKS_FILE = 'tasks.json'
 def load_tasks():
     """
     Load tasks from a file.
-
     Returns:
         list: A list of tasks loaded from the file.
+    Raises:
+        IOError: If there is an error while loading the tasks file.
+        json.JSONDecodeError: If there is an error decoding the JSON data from the file.
     """
 
-    if not os.path.exists(TASKS_FILE):
+    try:
+        if not os.path.exists(TASKS_FILE):
+            return []
+        with open(TASKS_FILE, 'r') as file:
+            return json.load(file)
+    except (IOError, json.JSONDecodeError) as e:
+        print(f"Error loading tasks: {e}")
         return []
-    with open(TASKS_FILE, 'r', encoding='utf-8') as file:
-        return json.load(file)
 
 def add_task(description):
     """
@@ -72,80 +78,85 @@ def list_tasks():
 
 def update_task(task_id, new_description):
     """
-    Updates the description of a task with the given task_id.
-
+    Update the description of a task with the given task_id.
     Parameters:
     - task_id (int): The ID of the task to be updated.
     - new_description (str): The new description for the task.
-
     Returns:
-    None
-
-    Prints a success message if the task is updated successfully.
-    Prints an error message if no task is found with the given task_id.
+    - None
+    Raises:
+    - None
     """
-    tasks = load_tasks()
-    for task in tasks:
-        if task['id'] == task_id:
-            task['description'] = new_description 
-            task['updatedAt'] = str(datetime.now()) 
-            save_tasks(tasks) 
-            print(f'Task {task_id} updated sucefully.')
-            return
-    print(f'ID not found {task_id}.')
+    tasks = load_tasks() # Load all tasks from file
+    task = next((task for task in tasks if task['id'] == task_id), None)  # search task by ID
+
+    if not task:
+        print(f"Error: No task found with ID {task_id}")
+        return
+
+    # If the task is found, update the description and the updated_at field
+    task['description'] = new_description
+    task['updatedAt'] = str(datetime.now())
+    save_tasks(tasks)
+    print(f'Task: {task_id} updated sucefully.')
 
 def delete_task(task_id):
     """
-    Deletes a task with the given task_id.
-    Parameters:
-    - task_id (int): The ID of the task to be deleted.
+    Deletes a task with the given task_id from the task manager.
+    Args:
+        task_id (int): The ID of the task to be deleted.
     Returns:
-    - None
+        None
     Raises:
-    - None
+        None
     """
     tasks = load_tasks()
-    deleted_task = None
+    task = next((task for task in tasks if task['id'] == task_id), None)  # search task by ID
 
-    # Find the task with the given ID
-    for task in tasks:
-        if task['id'] == task_id:
-            deleted_task = task
-            break
-
-    if not deleted_task:
-        print(f'Task ID not found {task_id}.')
+    if not task:
+        print(f"Error: No task found with ID {task_id}")
         return
 
-    # delete the task with the given ID
+    # If the task is found, remove it from the list of tasks and save the updated list
     tasks = [task for task in tasks if task['id'] != task_id]
     save_tasks(tasks)
-    with open('deleted_tasks.json', 'a', encoding='utf-8') as file: # save the deleted task to a separate file
-        json.dump(deleted_task, file, indent=4)
-        file.write('\n')
-    print(f'Tarea {task_id} eliminada.')
+    print(f'Task: {task_id} sucefully deleted.')
 
 def status_task(task_id, new_status):
     """
-    Update the status of a task with the given task_id.
+    Update the status of a task.
     Parameters:
-    - task_id (int): The ID of the task to be updated.
-    - new_status (str): The new status to be assigned to the task.
+    - task_id (int): The ID of the task to update.
+    - new_status (str): The new status to assign to the task.
     Returns:
     - None
     Raises:
     - None
+    Description:
+    - This function updates the status of a task identified by its ID. It first loads all the tasks from the task manager,
+      then validates that the provided status is valid. If the status is not valid, an error message is printed and the function returns.
+      If the provided task ID is not found in the list of tasks, an error message is printed and the function returns.
+      If the provided task ID is found, the status of the task is updated to the new status and the 'updatedAt' field is updated with the current datetime.
+      Finally, the updated list of tasks is saved and a success message is printed.
+    Example:
+    - status_task(1, 'in-progress')
     """
-    valid_statuses = ['todo', 'in-progress', 'done']
-    if new_status not in valid_statuses:
-        print(f"Invalid status, please use one of this: {', '.join(valid_statuses)}")
-        return
     tasks = load_tasks()
-    for task in tasks:
-        if task['id'] == task_id:
-            task['status'] = new_status
-            task['updatedAt'] = str(datetime.now())
-            save_tasks(tasks)
-            print(f'Task {task_id} updated sucefully.')
-            return
-    print(f'ID not found {task_id}')
+    valid_statuses = ['to-do', 'in-progress', 'done']
+
+    # Validate that the provided status is valid
+    if new_status not in valid_statuses:
+        print(f"Error: Invalid status. Use one of the following: {', '.join(valid_statuses)}")
+        return
+
+    task = next((task for task in tasks if task['id'] == task_id), None)
+
+    if not task:
+        print(f"Error: No task found with ID {task_id}.")
+        return
+
+    # If the ID is valid, update the status
+    task['status'] = new_status
+    task['updatedAt'] = str(datetime.now())
+    save_tasks(tasks)
+    print(f"Task {task_id} status successfully updated to '{new_status}'.")

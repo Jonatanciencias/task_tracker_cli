@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 
 
-TASK_FILE = 'tasks.json'
+TASKS_FILE = 'tasks.json'
 
 def load_tasks():
     """
@@ -15,22 +15,10 @@ def load_tasks():
         list: A list of tasks loaded from the file.
     """
 
-    if not os.path.exists(TASK_FILE):
+    if not os.path.exists(TASKS_FILE):
         return []
-    with open(TASKS_FILE, 'r') as file:
-        tasks = json.load(file)
-
-def save_tasks(tasks):
-    """
-    Save the given tasks to a file.
-    Parameters:
-    tasks (list): A list of tasks to be saved.
-    Returns:
-    None
-    """
-
-    with open(TASK_FILE, 'w') as file:
-        json.dump(tasks, file, indent=4)
+    with open(TASKS_FILE, 'r', encoding='utf-8') as file:
+        return json.load(file)
 
 def add_task(description):
     """
@@ -53,6 +41,18 @@ def add_task(description):
     tasks.append(task)
     save_tasks(tasks)
     return task
+
+def save_tasks(tasks):
+    """
+    Save the given tasks to a file.
+    Parameters:
+    tasks (list): A list of tasks to be saved.
+    Returns:
+    None
+    """
+
+    with open(TASKS_FILE, 'w', encoding='utf-8') as file:
+        json.dump(tasks, file, indent=4)
 
 def list_tasks():
     """
@@ -84,7 +84,7 @@ def update_task(task_id, new_description):
     Prints a success message if the task is updated successfully.
     Prints an error message if no task is found with the given task_id.
     """
-    tasks = load_tasks() 
+    tasks = load_tasks()
     for task in tasks:
         if task['id'] == task_id:
             task['description'] = new_description 
@@ -93,7 +93,6 @@ def update_task(task_id, new_description):
             print(f'Task {task_id} updated sucefully.')
             return
     print(f'ID not found {task_id}.')
-
 
 def delete_task(task_id):
     """
@@ -121,7 +120,7 @@ def delete_task(task_id):
     # delete the task with the given ID
     tasks = [task for task in tasks if task['id'] != task_id]
     save_tasks(tasks)
-    with open('deleted_tasks.json', 'a') as file: # save the deleted task to a separate file
+    with open('deleted_tasks.json', 'a', encoding='utf-8') as file: # save the deleted task to a separate file
         json.dump(deleted_task, file, indent=4)
         file.write('\n')
     print(f'Tarea {task_id} eliminada.')
@@ -150,4 +149,3 @@ def status_task(task_id, new_status):
             print(f'Task {task_id} updated sucefully.')
             return
     print(f'ID not found {task_id}')
-

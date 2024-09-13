@@ -20,7 +20,7 @@ def load_tasks():
     try:
         if not os.path.exists(TASKS_FILE):
             return []
-        with open(TASKS_FILE, 'r') as file:
+        with open(TASKS_FILE, 'r', encoding='utf-8') as file:
             return json.load(file)
     except (IOError, json.JSONDecodeError) as e:
         print(f"Error loading tasks: {e}")

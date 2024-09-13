@@ -104,3 +104,23 @@ class TestTaskManager(unittest.TestCase):
         status_task(1, "done")
         tasks = load_tasks()
         self.assertEqual(tasks[0]['status'], "done")
+
+    def test_update_non_existent_task(self):
+        """
+        Test case for updating a non-existent task.
+        This test case verifies that when attempting to update a task that does not exist,
+        the update_task function returns None and the number of tasks remains unchanged.
+        Steps:
+        1. Call the update_task function with a non-existent task ID and a new task description.
+        2. Load the tasks from the task manager.
+        3. Assert that the number of tasks is still 0.
+        4. Assert that the result of the update_task function is None.
+        Expected behavior:
+        - The update_task function should return None.
+        - The number of tasks should remain unchanged.
+        """
+        result = update_task(999, "Non-existent task update")
+        tasks = load_tasks()
+        self.assertEqual(len(tasks), 0)
+        self.assertIsNone(result, "Attempting to update a non-existent task should return None "
+                      "or a proper error message.")

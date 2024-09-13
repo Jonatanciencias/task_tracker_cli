@@ -85,4 +85,4 @@ Contributions are welcome! Please open an issue or submit a pull request.
 ---
 ### Repositorio GitHub:
 
-**[https://github.com/Jonatanciencias/task_trascker_cli](https://github.com/Jonatanciencias/task_trascker_cli)**
+**[https://github.com/Jonatanciencias/task_tracker_cli](https://github.com/Jonatanciencias/task_tracker_cli)**

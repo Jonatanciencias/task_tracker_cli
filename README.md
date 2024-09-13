@@ -69,7 +69,7 @@ cd task_tracker_cli
 3. Run the script:
 
 ```bash
-python3 src/cli.py
+python src/cli.py
 ```
 
 ## Testing
@@ -77,7 +77,7 @@ python3 src/cli.py
 Unit tests are included to ensure the core functions work correctly. To run the tests:
 
 ```bash
-python3 -m unittest discover tests
+python -m unittest discover tests
 ```
 ## Original Project
 

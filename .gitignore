@@ -1,1 +1,17 @@
+# Exclude virtual environment
+.venv/
+
+# Exclude Python caches and compiled files
+__pycache__/
+*.py[cod]
+
+# Exclude IDE configuration files (e.g. VSCode)
+.vscode/
+.idea/
+
+# Exclude test or data files that should not be committed
+*.log
+*.json
+
+# Exclude local dependency file (if desired)
 tasks.json

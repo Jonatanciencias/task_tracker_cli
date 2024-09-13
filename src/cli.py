@@ -1,12 +1,15 @@
+""" Command-line interface for Task Tracker CLI application. """
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.task_manager import load_tasks, add_task, update_task, delete_task, status_task
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 
 def show_help():
     """
-    Displays the help message for Task Tracker CLI, outlining the available commands and their usage.
+    Displays the help message for Task Tracker CLI.
+    Outlines the available commands and their usage.
     """
     help_message = """
     Task Tracker CLI:

@@ -63,21 +63,26 @@ python -m src.cli add "Task description"
 python -m src.cli list
 
 ```
+3. List Tasks by Status:  
 
-3. **Update Task**:
+```bash
+python -m src.cli list [status]
+```
+
+4. **Update Task**:
 
 ```bash
 python -m src.cli update <ID> "New description"
 
 ```
 
-4. **Delete Task**:
+5. **Delete Task**:
 
 ```bash
 python -m src.cli delete <ID>
 ```
 
-5. **Change Status**:
+6. **Change Status**:
 
 ```bash
 python -m src.cli new_status <ID> <status>

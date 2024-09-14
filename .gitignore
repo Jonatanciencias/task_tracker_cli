@@ -12,6 +12,3 @@ __pycache__/
 # Exclude test or data files that should not be committed
 *.log
 *.json
-
-# Exclude local dependency file (if desired)
-tasks.json

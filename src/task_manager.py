@@ -1,8 +1,9 @@
 """ Módulo para la gestión de tareas. """
+import os
 from datetime import datetime
 from .utils import load_tasks, save_tasks, validate_status
 
-TASKS_FILE = 'tasks.json'
+TASKS_FILE = os.path.join(os.path.dirname(__file__), '..', 'tasks.json')
 VALID_STATUSES = ['to-do', 'in-progress', 'completed']
 
 def add_task(description):

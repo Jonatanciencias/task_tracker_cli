@@ -1,9 +1,13 @@
 """" Command Line Interface (CLI) for the Task Tracker application. """
 import sys
 import logging
+import os
+
+# Add the src directory to the system path
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 try:
-    from .task_manager import load_tasks, add_task, update_task, delete_task, status_task
+    from src.task_manager import load_tasks, add_task, update_task, delete_task, status_task
 
 except ImportError:
     print("Unable to import 'task_manager'. Please ensure that the module is in the correct directory.")
@@ -51,10 +55,8 @@ def main():
         logging.debug('Not enough arguments provided')
         show_help()
         return
-
     command = sys.argv[1]
     logging.debug('Received command: %s', command)
-    
     if command == 'add':
         if len(sys.argv) < 3:
             logging.error("Task description is missing")
@@ -66,7 +68,7 @@ def main():
             print(f"Task added successfully: ID {task['id']}")
 
     elif command == 'list':
-        tasks = load_tasks(file_path='path/to/tasks.json')
+        tasks = load_tasks(file_path='tasks.json')
         if tasks:
             for task in tasks:
                 print(f"ID: {task['id']}, Description: {task['description']}, Status: {task['status']}")

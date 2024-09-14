@@ -40,10 +40,15 @@ python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
+4. Install the project using setup.py:
+```bash
+pip install .
+```
+
 4. Run help
 
 ```bash
-python -m src.cli
+task-cli --help
 ```
 
 ## Usage
@@ -53,39 +58,47 @@ python -m src.cli
 1. **Add Task**:
 
 ```bash
-python -m src.cli add "Task description"
+task-cli add "Task description"
 
 ```
 
 2. **List Tasks**:
 
 ```bash
-python -m src.cli list
+task-cli list
 
 ```
 3. List Tasks by Status:  
 
 ```bash
-python -m src.cli list [status]
+task-cli list done
+task-cli list todo
+task-cli list in-progress
+
 ```
 
 4. **Update Task**:
 
 ```bash
-python -m src.cli update <ID> "New description"
+task-cli update <ID> "New description"
 
 ```
 
 5. **Delete Task**:
 
 ```bash
-python -m src.cli delete <ID>
+task-cli delete <ID>
 ```
 
 6. **Change Status**:
 
 ```bash
-python -m src.cli new_status <ID> <status>
+task-cli new_status <ID> <status>
+```
+
+7. **Uninstal**:
+```bash
+pip uninstall task-tracker-cli
 ```
 
 ## Testing

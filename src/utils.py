@@ -59,26 +59,21 @@ def show_help():
     ****************************************
     
     Commands:
-    - add <description>         Add a new task.
-    - list [status]             List all tasks or tasks with a specific status.
-    - update <ID> <desc>        Update a task description.
-    - delete <ID>               Delete a task.
-    - new_status <ID> <status>  Change task status.
+    - task-cli add <description>         Add a new task.
+    - task-cli list [status]             List all tasks or tasks with a specific status.
+    - task-cli update <ID> <desc>        Update a task description.
+    - task-cli delete <ID>               Delete a task.
+    - task-cli new_status <ID> <status>  Change task status.
+    
     Usage:
-    - python -m src.cli <command> [options]
-
-    Commands:
-    - add <description>: Add a new task.
-    - list: List all tasks.
-    - update <ID> <description>: Update the task with the specified ID.
-    - delete <ID>: Delete the task with the specified ID.
-    - new_status <ID> <status>: Change the status of the task.
+    - task-cli <command> [options]
 
     Examples:
-    - python -m src.cli add "Finish the report"
-    - python -m src.cli list
-    - python -m src.cli update 1 "Review the report"
-    - python -m src.cli delete 1
-    - python -m src.cli new_status 1 done
+    - task-cli add "Finish the report"
+    - task-cli list
+    - task-cli list done
+    - task-cli update 1 "Review the report"
+    - task-cli delete 1
+    - task-cli new_status 1 done
     """
     print(help_message)

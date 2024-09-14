@@ -61,7 +61,7 @@ def main():
     # code implementation
 
     logging.debug('Start of main() function')
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 2 or sys.argv[1] == 'help':
         logging.debug('Not enough arguments provided')
         show_help()
         return

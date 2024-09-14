@@ -10,9 +10,6 @@ import json
 # Import functions from cli
 from .cli import main, show_help
 
-# Import functions from utils (if you have any implemented)
-from .utils import some_utility_function  # If there is any specific utility
-
 # Package metadata
 __version__ = "1.0.0"
 __author__ = "Jonatan Garcia"

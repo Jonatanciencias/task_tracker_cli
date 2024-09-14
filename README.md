@@ -95,6 +95,7 @@ Unit tests are included to ensure the core functions work correctly. To run the 
 ```bash
 python -m unittest discover tests
 ```
+
 ## Original Project
 
 This project is an implementation of the **Task Tracker CLI**, based on the projects proposed by **[roadmap.sh](https://roadmap.sh/projects/task-tracker)**.

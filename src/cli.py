@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """" Command Line Interface (CLI) for the Task Tracker application. """
 import sys
 import logging
@@ -12,59 +14,19 @@ try:
 except ImportError:
     print("Unable to import 'task_manager'. Please ensure that the module is in the correct directory.")
     sys.exit(1)
+try:
+    from src.utils import show_help  # Importar la función desde utils.py
+except ImportError:
+    print("Unable to import 'show_help'. Please ensure that the module is in the correct directory.")
+    sys.exit(1)
 
 # configure logging
 logging.basicConfig(filename='task_cli.log', level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
-
 logging.debug('start cli.py')
 
+VALID_STATUSES = ['to-do', 'in-progress', 'done']
 
-def show_help():
-    """
-    Displays the available commands in the CLI, with instructions on how to use the script.
-    """
-    help_message = """
-    ****************************************
-    *                                      *
-    *   ████████╗ █████╗ ███████╗██╗  ██╗  *
-    *   ╚══██╔══╝██╔══██╗██╔════╝██║  ██║  *
-    *      ██║   ███████║███████╗███████║  *
-    *      ██║   ██╔══██║╚════██║██╔══██║  *
-    *      ██║   ██║  ██║███████║██║  ██║  *
-    *      ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝  *
-    *                                      *
-    ****************************************
-    *                                      *
-    *      Task Tracker CLI  v1.0.0        *
-    *  Keep track of your tasks easily!    *
-    *                                      *
-    ****************************************
-    
-    Commands:
-    - add <description>         Add a new task.
-    - list [status]             List all tasks or tasks with a specific status.
-    - update <ID> <desc>        Update a task description.
-    - delete <ID>               Delete a task.
-    - new_status <ID> <status>  Change task status.
-    Usage:
-    - python -m src.cli <command> [options]
-
-    Commands:
-    - add <description>: Add a new task.
-    - list: List all tasks.
-    - update <ID> <description>: Update the task with the specified ID.
-    - delete <ID>: Delete the task with the specified ID.
-    - new_status <ID> <status>: Change the status of the task.
-
-    Examples:
-    - python -m src.cli add "Finish the report"
-    - python -m src.cli list
-    - python -m src.cli update 1 "Review the report"
-    - python -m src.cli delete 1
-    - python -m src.cli new_status 1 done
-    """
-    print(help_message)
 
 def main():
     """
@@ -103,8 +65,10 @@ def main():
         logging.debug('Not enough arguments provided')
         show_help()
         return
+    
     command = sys.argv[1]
     logging.debug('Received command: %s', command)
+    
     if command == 'add':
         if len(sys.argv) < 3:
             logging.error("Task description is missing")
@@ -152,7 +116,7 @@ def main():
         else:
             task_id = int(sys.argv[2])
             delete_task(task_id)
-            print(f"Task {task_id} deleted successfully.")
+            print(f"Task {task_id} deleted successfully.")          
 
     elif command == 'new_status':
         if len(sys.argv) < 4:
@@ -160,9 +124,13 @@ def main():
         else:
             task_id = int(sys.argv[2])
             new_status = sys.argv[3]
-            status_task(task_id, new_status)
-            print(f"Status of task {task_id} updated to '{new_status}'.")
-
+            # Validate that the new status is in the list of valid statuses
+            if new_status not in VALID_STATUSES:
+                print(f"Error: '{new_status}' is not a valid status. Valid statuses are: {', '.join(VALID_STATUSES)}")
+            else:
+                status_task(task_id, new_status)
+                print(f"Status of task {task_id} updated to '{new_status}'.")
+                
     else:
         print("Unknown command. Available commands: add, list, update, delete, new_status")
         show_help()

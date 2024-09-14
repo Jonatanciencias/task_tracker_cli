@@ -13,7 +13,7 @@ try:
 
 except ImportError:
     print("Unable to import 'task_manager'. Please ensure that the module is in the correct directory.")
-    sys.exit(1)  
+    sys.exit(1)
 try:
     from src.utils import show_help  # Importar la función desde utils.py
 except ImportError:

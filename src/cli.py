@@ -1,6 +1,12 @@
 """" Command Line Interface (CLI) for the Task Tracker application. """
 import sys
-from task_manager import load_tasks, add_task, update_task, delete_task, status_task
+sys.path.append('/path/to/task_manager_module_directory')
+
+try:
+    from task_manager import load_tasks, add_task, update_task, delete_task, status_task
+except ImportError:
+    print("Unable to import 'task_manager'. Please ensure that the module is in the correct directory.")
+    sys.exit(1)
 
 def show_help():
     """
@@ -20,7 +26,16 @@ def show_help():
 
 def main():
     """
-    Entry point of the Task Tracker CLI application.
+    Entry point of the task tracker CLI application.
+    Parses command line arguments and executes corresponding commands.
+    Usage:
+        task-cli add <description> - Add a new task with the given description.
+        task-cli list - List all tasks.
+        task-cli update <ID> <new description> - Update the description of a task with the given ID.
+        task-cli delete <ID> - Delete a task with the given ID.
+        task-cli new_status <ID> <new status> - Update the status of a task with the given ID.
+    Returns:
+        None
     """
     if len(sys.argv) < 2:
         show_help()

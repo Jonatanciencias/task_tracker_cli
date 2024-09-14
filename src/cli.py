@@ -88,11 +88,12 @@ def main():
         if len(sys.argv) == 3:
             status_filter = sys.argv[2]
             
-            # Use the validate_status function from utils to validate the status
+            # Use the validate_status function to validate the status
             if not validate_status(status_filter):
                 return
             
             tasks = load_tasks(file_path='tasks.json')
+            print(tasks)  # To check if tasks are being loaded correctly
             filtered_tasks = [task for task in tasks if task['status'] == status_filter]
             if filtered_tasks:
                 for task in filtered_tasks:
@@ -101,11 +102,13 @@ def main():
                 print(f"No tasks found with status '{status_filter}'.")
         else:
             tasks = load_tasks(file_path='tasks.json')
+            print(tasks)  # Debugging
             if tasks:
                 for task in tasks:
                     print(f"ID: {task['id']}, Description: {task['description']}, Status: {task['status']}")
             else:
                 print("No tasks found.")
+
 
     elif command == 'update':
         if len(sys.argv) < 4:

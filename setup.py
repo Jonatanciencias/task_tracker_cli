@@ -1,6 +1,5 @@
 """ Configuration file for packaging the project into a Python package """
 
-import os
 from setuptools import setup, find_packages
 
 # Load the contents of the README.md file for the long description

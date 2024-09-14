@@ -1,6 +1,13 @@
 """ Configuration file for packaging the project into a Python package """
 
+import logging
 from setuptools import setup, find_packages
+
+# Configuración de logging en setup.py
+logging.basicConfig(filename='setup.log', level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
+logging.debug('Starting installation with setup.py')
 
 # Load the contents of the README.md file for the long description
 with open("README.md", "r", encoding="utf-8") as fh:

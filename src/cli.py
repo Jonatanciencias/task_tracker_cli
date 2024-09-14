@@ -1,5 +1,6 @@
 """" Command Line Interface (CLI) for the Task Tracker application. """
 import sys
+import logging
 sys.path.append('/path/to/task_manager_module_directory')
 
 try:
@@ -7,6 +8,13 @@ try:
 except ImportError:
     print("Unable to import 'task_manager'. Please ensure that the module is in the correct directory.")
     sys.exit(1)
+
+# configure logging
+logging.basicConfig(filename='task_cli.log', level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
+logging.debug('start cli.py')
+
 
 def show_help():
     """
@@ -24,6 +32,7 @@ def show_help():
     """
     print(help_message)
 
+
 def main():
     """
     Entry point of the task tracker CLI application.
@@ -37,18 +46,23 @@ def main():
     Returns:
         None
     """
+    logging.debug('Start of main() function')
     if len(sys.argv) < 2:
+        logging.debug('Not enough arguments provided')
         show_help()
         return
 
     command = sys.argv[1]
+    logging.debug('Received command: %s', command)
     
     if command == 'add':
         if len(sys.argv) < 3:
+            logging.error("Task description is missing")
             print("Usage: task-cli add <description>")
         else:
             description = ' '.join(sys.argv[2:])
             task = add_task(description)
+            logging.info('Task added: %s', task)
             print(f"Task added successfully: ID {task['id']}")
 
     elif command == 'list':

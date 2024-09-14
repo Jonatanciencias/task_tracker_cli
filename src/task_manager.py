@@ -1,3 +1,4 @@
+""" Module for task management. """
 import json
 from datetime import datetime
 import os
@@ -6,7 +7,10 @@ TASKS_FILE = 'tasks.json'
 
 def load_tasks():
     """
-    Carga las tareas desde un archivo JSON.
+    Load tasks from the specified file.
+
+    Returns:
+        list: A list of tasks loaded from the file.
     """
     if not os.path.exists(TASKS_FILE):
         return []
@@ -15,15 +19,23 @@ def load_tasks():
 
 def save_tasks(tasks):
     """
-    Guarda las tareas en un archivo JSON.
+    Save the given tasks to a file.
+    Parameters:
+    tasks (list): A list of tasks to be saved.
+    Returns:
+    None
     """
     with open(TASKS_FILE, 'w', encoding='utf-8') as file:
         json.dump(tasks, file, indent=4)
 
 def add_task(description):
     """
-    Añade una nueva tarea al archivo de tareas.
-    """
+    Adds a new task to the task manager.
+    Parameters:
+    - description (str): The description of the task.
+    Returns:
+    - dict: The newly added task.
+    """  
     tasks = load_tasks()
     task_id = len(tasks) + 1
     task = {
@@ -39,7 +51,14 @@ def add_task(description):
 
 def update_task(task_id, new_description):
     """
-    Actualiza la descripción de una tarea.
+    Update the description of a task with the given task_id.
+    Parameters:
+    - task_id (int): The ID of the task to be updated.
+    - new_description (str): The new description for the task.
+    Returns:
+    None
+    Raises:
+    None
     """
     tasks = load_tasks()
     task = next((task for task in tasks if task['id'] == task_id), None)
@@ -48,22 +67,34 @@ def update_task(task_id, new_description):
         task['description'] = new_description
         task['updated_at'] = str(datetime.now())
         save_tasks(tasks)
-        print(f'Tarea {task_id} actualizada exitosamente.')
+        print(f'Task {task_id} updated successfully.')
     else:
-        print(f'Error: No se encontró la tarea con ID {task_id}.')
+        print(f'Error: Task with ID {task_id} not found.')
 
 def delete_task(task_id):
     """
-    Elimina una tarea con el ID especificado.
-    """
+    Deletes a task with the given task_id from the task manager.
+    Parameters:
+    - task_id (int): The ID of the task to be deleted.
+    Returns:
+    - None
+    Raises:
+    - None
+    """  
     tasks = load_tasks()
     tasks = [task for task in tasks if task['id'] != task_id]
     save_tasks(tasks)
-    print(f'Tarea {task_id} eliminada exitosamente.')
+    print(f'Task {task_id} deleted successfully.')
 
 def status_task(task_id, new_status):
     """
-    Actualiza el estado de una tarea.
+    Updates the status of a task with the given task_id.
+    Parameters:
+    - task_id (int): The ID of the task to update.
+    - new_status (str): The new status to assign to the task.
+    Returns:
+    None
+    Prints the updated status of the task if it exists, otherwise prints an error message.
     """
     tasks = load_tasks()
     task = next((task for task in tasks if task['id'] == task_id), None)
@@ -72,6 +103,6 @@ def status_task(task_id, new_status):
         task['status'] = new_status
         task['updated_at'] = str(datetime.now())
         save_tasks(tasks)
-        print(f'Estado de la tarea {task_id} actualizado a {new_status}.')
+        print(f'Status of task {task_id} updated to {new_status}.')
     else:
-        print(f'Error: No se encontró la tarea con ID {task_id}.')
+        print(f'Error: Task with ID {task_id} not found.')

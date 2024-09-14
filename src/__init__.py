@@ -1,4 +1,4 @@
-"""Task Manager Package"""
+""""Task Manager Package"""
 
 import os
 import logging
@@ -23,21 +23,21 @@ __author__ = "Jonatan Garcia"
 __license__ = "MIT"
 
 # Function to check the existence of tasks.json
-# Function to check the existence of tasks.json
 def check_task_file():
     """
-    Verifies if the tasks.json file exists. If not, creates it.
+    Verifies if the tasks.json file exists. If not, creates it in the root of the project.
     """
-    # Cambia esta ruta para apuntar siempre a la raíz del proyecto
-    task_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'tasks.json')
-    
+    # Set the path to the root directory and tasks.json file
+    root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))  # Root directory of the project
+    task_file_path = os.path.join(root_dir, 'tasks.json')  # Path to tasks.json in the root
+
     if not os.path.exists(task_file_path):
-        logger.info("tasks.json file does not exist. Creating a new one...")
+        logger.info(f"tasks.json file does not exist in {root_dir}. Creating a new one...")
         with open(task_file_path, 'w', encoding='utf-8') as f:
-            json.dump([], f)
+            json.dump([], f)  # Create an empty JSON array to store tasks
 
-# Call the function to check the file on initialization
-check_task_file()
+    return task_file_path  # Return the path to be used in load_tasks and other operations
 
-# Load tasks when the package is imported
-tasks = load_tasks(file_path=os.path.join(os.path.dirname(os.path.dirname(__file__)), 'tasks.json'))
+# Call the function to check the file on initialization and load tasks
+task_file_path = check_task_file()
+tasks = load_tasks(file_path=task_file_path)

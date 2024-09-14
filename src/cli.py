@@ -18,9 +18,9 @@ except ImportError:
 # configure logging
 logging.basicConfig(filename='task_cli.log', level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
-
 logging.debug('start cli.py')
 
+VALID_STATUSES = ['to-do', 'in-progress', 'done']
 
 def show_help():
     """
@@ -105,8 +105,10 @@ def main():
         logging.debug('Not enough arguments provided')
         show_help()
         return
+    
     command = sys.argv[1]
     logging.debug('Received command: %s', command)
+    
     if command == 'add':
         if len(sys.argv) < 3:
             logging.error("Task description is missing")
@@ -154,7 +156,7 @@ def main():
         else:
             task_id = int(sys.argv[2])
             delete_task(task_id)
-            print(f"Task {task_id} deleted successfully.")
+            print(f"Task {task_id} deleted successfully.")          
 
     elif command == 'new_status':
         if len(sys.argv) < 4:
@@ -162,9 +164,13 @@ def main():
         else:
             task_id = int(sys.argv[2])
             new_status = sys.argv[3]
-            status_task(task_id, new_status)
-            print(f"Status of task {task_id} updated to '{new_status}'.")
-
+            # Validate that the new status is in the list of valid statuses
+            if new_status not in VALID_STATUSES:
+                print(f"Error: '{new_status}' is not a valid status. Valid statuses are: {', '.join(VALID_STATUSES)}")
+            else:
+                status_task(task_id, new_status)
+                print(f"Status of task {task_id} updated to '{new_status}'.")
+                
     else:
         print("Unknown command. Available commands: add, list, update, delete, new_status")
         show_help()

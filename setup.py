@@ -35,7 +35,7 @@ setup(
     },
     entry_points={  # Entry point for command line
         'console_scripts': [
-            'task-cli = src/cli:main',  # The CLI command to be installed
+            'task-cli = cli:main',  # The CLI command to be installed
         ],
     },
     include_package_data=True,  # Include additional files specified in MANIFEST.in

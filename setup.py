@@ -9,7 +9,7 @@ setup(
     install_requires=[],
     entry_points={
         'console_scripts': [
-            'task-cli = cli:main',
+            'task-cli = src.cli:main',
         ],
     },
 )

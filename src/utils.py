@@ -30,13 +30,16 @@ def save_tasks(file_path, tasks):
         print(f"Error saving tasks: {e}")
 
 # Task status validation
-def validate_status(status, valid_statuses):
+VALID_STATUSES = ['to-do', 'in-progress', 'done']
+
+def validate_status(status):
     """Validates if the provided status is one of the allowed statuses."""
-    if status not in valid_statuses:
-        print(f"Error: '{status}' is not a valid status. Valid statuses are: {', '.join(valid_statuses)}")
+    if status not in VALID_STATUSES:
+        print(f"Error: '{status}' is not a valid status. Valid statuses are: {', '.join(VALID_STATUSES)}")
         return False
     return True
 
+# Helper functions
 def show_help():
     """
     Displays the available commands in the CLI, with instructions on how to use the script.

@@ -15,9 +15,14 @@ except ImportError:
     print("Unable to import 'task_manager'. Please ensure that the module is in the correct directory.")
     sys.exit(1)
 try:
-    from src.utils import show_help  # Importar la función desde utils.py
+    from src.utils import show_help  # Import the function from utils.py
 except ImportError:
     print("Unable to import 'show_help'. Please ensure that the module is in the correct directory.")
+    sys.exit(1)
+try:
+    from src.utils import validate_status  # Import the function from utils.py
+except ImportError:
+    print("Unable to import 'validate_status'. Please ensure that the module is in the correct directory.")
     sys.exit(1)
 
 # configure logging
@@ -82,10 +87,11 @@ def main():
     elif command == 'list':
         if len(sys.argv) == 3:
             status_filter = sys.argv[2]
-            valid_statuses = ['to-do', 'in-progress', 'done']
-            if status_filter not in valid_statuses:
-                print(f"Invalid status '{status_filter}'. Valid statuses are: {', '.join(valid_statuses)}.")
+            
+            # Use the validate_status function from utils to validate the status
+            if not validate_status(status_filter):
                 return
+            
             tasks = load_tasks(file_path='tasks.json')
             filtered_tasks = [task for task in tasks if task['status'] == status_filter]
             if filtered_tasks:

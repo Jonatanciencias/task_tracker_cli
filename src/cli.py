@@ -42,11 +42,11 @@ def show_help():
     ****************************************
     
     Commands:
-    - add <description>      Add a new task.
-    - list                   List all tasks.
-    - update <ID> <desc>     Update a task description.
-    - delete <ID>            Delete a task.
-    - new_status <ID> <status> Change task status.
+    - add <description>         Add a new task.
+    - list [status]             List all tasks or tasks with a specific status.
+    - update <ID> <desc>        Update a task description.
+    - delete <ID>               Delete a task.
+    - new_status <ID> <status>  Change task status.
     Usage:
     - python -m src.cli <command> [options]
 
@@ -69,16 +69,35 @@ def show_help():
 def main():
     """
     Entry point of the task tracker CLI application.
-    Parses command line arguments and executes corresponding commands.
+    The main function parses the command line arguments and executes the corresponding command.
     Usage:
-        task-cli add <description> - Add a new task with the given description.
-        task-cli list - List all tasks.
-        task-cli update <ID> <new description> - Update the description of a task with the given ID.
-        task-cli delete <ID> - Delete a task with the given ID.
-        task-cli new_status <ID> <new status> - Update the status of a task with the given ID.
-    Returns:
-        None
+        task-cli add <description> - Add a new task with the provided description.
+        task-cli list [status] - List all tasks or filter tasks by status.
+        task-cli update <ID> <new description> - Update the description of a task with the provided ID.
+        task-cli delete <ID> - Delete the task with the provided ID.
+        task-cli new_status <ID> <new status> - Update the status of a task with the provided ID.
+    Commands:
+        add - Add a new task.
+        list - List all tasks or filter tasks by status.
+        update - Update the description of a task.
+        delete - Delete a task.
+        new_status - Update the status of a task.
+    Arguments:
+        <description> - The description of the task to be added.
+        [status] - Optional. Filter tasks by status. Valid statuses are: to-do, in-progress, done.
+        <ID> - The ID of the task to be updated or deleted.
+        <new description> - The new description for the task.
+        <new status> - The new status for the task.
+    Examples:
+        task-cli add "Implement login feature"
+        task-cli list
+        task-cli list in-progress
+        task-cli update 1 "Fix bug in registration form"
+        task-cli delete 2
+        task-cli new_status 3 done
     """
+    # code implementation
+
     logging.debug('Start of main() function')
     if len(sys.argv) < 2:
         logging.debug('Not enough arguments provided')
@@ -97,12 +116,26 @@ def main():
             print(f"Task added successfully: ID {task['id']}")
 
     elif command == 'list':
-        tasks = load_tasks(file_path='tasks.json')
-        if tasks:
-            for task in tasks:
-                print(f"ID: {task['id']}, Description: {task['description']}, Status: {task['status']}")
+        if len(sys.argv) == 3:
+            status_filter = sys.argv[2]
+            valid_statuses = ['to-do', 'in-progress', 'done']
+            if status_filter not in valid_statuses:
+                print(f"Invalid status '{status_filter}'. Valid statuses are: {', '.join(valid_statuses)}.")
+                return
+            tasks = load_tasks(file_path='tasks.json')
+            filtered_tasks = [task for task in tasks if task['status'] == status_filter]
+            if filtered_tasks:
+                for task in filtered_tasks:
+                    print(f"ID: {task['id']}, Description: {task['description']}, Status: {task['status']}")
+            else:
+                print(f"No tasks found with status '{status_filter}'.")
         else:
-            print("No tasks found.")
+            tasks = load_tasks(file_path='tasks.json')
+            if tasks:
+                for task in tasks:
+                    print(f"ID: {task['id']}, Description: {task['description']}, Status: {task['status']}")
+            else:
+                print("No tasks found.")
 
     elif command == 'update':
         if len(sys.argv) < 4:

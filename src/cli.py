@@ -13,6 +13,11 @@ try:
 
 except ImportError:
     print("Unable to import 'task_manager'. Please ensure that the module is in the correct directory.")
+    sys.exit(1)  
+try:
+    from src.utils import show_help  # Importar la función desde utils.py
+except ImportError:
+    print("Unable to import 'show_help'. Please ensure that the module is in the correct directory.")
     sys.exit(1)
 
 # configure logging
@@ -22,51 +27,6 @@ logging.debug('start cli.py')
 
 VALID_STATUSES = ['to-do', 'in-progress', 'done']
 
-def show_help():
-    """
-    Displays the available commands in the CLI, with instructions on how to use the script.
-    """
-    help_message = """
-    ****************************************
-    *                                      *
-    *   ████████╗ █████╗ ███████╗██╗  ██╗  *
-    *   ╚══██╔══╝██╔══██╗██╔════╝██║  ██║  *
-    *      ██║   ███████║███████╗███████║  *
-    *      ██║   ██╔══██║╚════██║██╔══██║  *
-    *      ██║   ██║  ██║███████║██║  ██║  *
-    *      ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝  *
-    *                                      *
-    ****************************************
-    *                                      *
-    *      Task Tracker CLI  v1.0.0        *
-    *  Keep track of your tasks easily!    *
-    *                                      *
-    ****************************************
-    
-    Commands:
-    - add <description>         Add a new task.
-    - list [status]             List all tasks or tasks with a specific status.
-    - update <ID> <desc>        Update a task description.
-    - delete <ID>               Delete a task.
-    - new_status <ID> <status>  Change task status.
-    Usage:
-    - python -m src.cli <command> [options]
-
-    Commands:
-    - add <description>: Add a new task.
-    - list: List all tasks.
-    - update <ID> <description>: Update the task with the specified ID.
-    - delete <ID>: Delete the task with the specified ID.
-    - new_status <ID> <status>: Change the status of the task.
-
-    Examples:
-    - python -m src.cli add "Finish the report"
-    - python -m src.cli list
-    - python -m src.cli update 1 "Review the report"
-    - python -m src.cli delete 1
-    - python -m src.cli new_status 1 done
-    """
-    print(help_message)
 
 def main():
     """

@@ -23,4 +23,4 @@ tests/__pycache__/
 dist/
 build/
 
-task.json
+tasks.json

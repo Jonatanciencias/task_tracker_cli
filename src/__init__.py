@@ -38,4 +38,5 @@ def check_task_file():
 check_task_file()
 
 # Load tasks on startup
-tasks = load_tasks()
+# Provide the file_path argument when calling the load_tasks() function
+tasks = load_tasks(file_path='tasks.json')

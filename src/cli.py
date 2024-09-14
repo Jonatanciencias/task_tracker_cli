@@ -1,10 +1,10 @@
 """" Command Line Interface (CLI) for the Task Tracker application. """
 import sys
 import logging
-sys.path.append('/path/to/task_manager_module_directory')
 
 try:
-    from task_manager import load_tasks, add_task, update_task, delete_task, status_task
+    from .task_manager import load_tasks, add_task, update_task, delete_task, status_task
+
 except ImportError:
     print("Unable to import 'task_manager'. Please ensure that the module is in the correct directory.")
     sys.exit(1)

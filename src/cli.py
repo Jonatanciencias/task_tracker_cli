@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """" Command Line Interface (CLI) for the Task Tracker application. """
 import sys
 import logging

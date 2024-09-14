@@ -25,8 +25,28 @@ def show_help():
     Displays the available commands in the CLI, with instructions on how to use the script.
     """
     help_message = """
-    Task Tracker CLI:
-
+    ****************************************
+    *                                      *
+    *   ████████╗ █████╗ ███████╗██╗  ██╗  *
+    *   ╚══██╔══╝██╔══██╗██╔════╝██║  ██║  *
+    *      ██║   ███████║███████╗███████║  *
+    *      ██║   ██╔══██║╚════██║██╔══██║  *
+    *      ██║   ██║  ██║███████║██║  ██║  *
+    *      ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝  *
+    *                                      *
+    ****************************************
+    *                                      *
+    *      Task Tracker CLI  v1.0.0        *
+    *  Keep track of your tasks easily!    *
+    *                                      *
+    ****************************************
+    
+    Commands:
+    - add <description>      Add a new task.
+    - list                   List all tasks.
+    - update <ID> <desc>     Update a task description.
+    - delete <ID>            Delete a task.
+    - new_status <ID> <status> Change task status.
     Usage:
     - python -m src.cli <command> [options]
 

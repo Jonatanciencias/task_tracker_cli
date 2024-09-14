@@ -13,41 +13,6 @@ A simple yet efficient task tracker that allows you to manage your tasks from th
 - **Delete Tasks**: Delete a task by its ID.
 - **Change Task Status**: Change the status of a task to "to-do", "in-progress", or "done".
 
-## Usage
-
-### Commands:
-
-1. **Add Task**:
-
-```bash
-task-cli add "Task description"  
-
-```
-
-2. **List Tasks**:
-
-```bash
-task-cli list
-```
-
-3. **Update Task**:
-
-```bash
-task-cli update <ID> "New description"
-
-```
-
-4. **Delete Task**:
-
-```bash
-task-cli delete <ID>
-```
-
-5. **Change Status**:
-
-```bash
-task-cli new_status <ID> <status>
-```
 ## Requirements
 
 - Python 3.6 or higher.
@@ -66,16 +31,51 @@ git clone https://github.com/Jonatanciencias/task_tracker_cli.git
 cd task_tracker_cli
 ```
 
-3. Install the project locally:
+3. Set up a virtual environment (optional but recommended):
 
 ```bash
-pip install .
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-4. Run the task tracker using the command task-cli:
+
+
+
+## Usage
+
+### Commands:
+
+1. **Add Task**:
 
 ```bash
-task-cli add "Write documentation"
+python -m src.cli add "Task description"
+
+```
+
+2. **List Tasks**:
+
+```bash
+python -m src.cli list
+
+```
+
+3. **Update Task**:
+
+```bash
+python -m src.cli update <ID> "New description"
+
+```
+
+4. **Delete Task**:
+
+```bash
+python -m src.cli delete <ID>
+```
+
+5. **Change Status**:
+
+```bash
+python -m src.cli new_status <ID> <status>
 ```
 
 ## Testing

@@ -22,20 +22,29 @@ logging.debug('start cli.py')
 
 def show_help():
     """
-    Displays the available commands in the CLI.
+    Displays the available commands in the CLI, with instructions on how to use the script.
     """
     help_message = """
     Task Tracker CLI:
-    
+
+    Usage:
+    - python -m src.cli <command> [options]
+
     Commands:
     - add <description>: Add a new task.
     - list: List all tasks.
     - update <ID> <description>: Update the task with the specified ID.
     - delete <ID>: Delete the task with the specified ID.
     - new_status <ID> <status>: Change the status of the task.
+
+    Examples:
+    - python -m src.cli add "Finish the report"
+    - python -m src.cli list
+    - python -m src.cli update 1 "Review the report"
+    - python -m src.cli delete 1
+    - python -m src.cli new_status 1 done
     """
     print(help_message)
-
 
 def main():
     """

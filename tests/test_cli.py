@@ -9,7 +9,7 @@ class TestCLI(unittest.TestCase):
     Test adding a task from the CLI.
     """
     def setUp(self):
-        """Limpia el archivo de tareas antes de cada prueba."""
+        """Clears the tasks file before each test."""
         with open('tasks.json', 'w', encoding='utf-8') as file:
             file.write('[]')
 

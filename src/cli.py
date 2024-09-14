@@ -66,7 +66,7 @@ def main():
             print(f"Task added successfully: ID {task['id']}")
 
     elif command == 'list':
-        tasks = load_tasks()
+        tasks = load_tasks(file_path='path/to/tasks.json')
         if tasks:
             for task in tasks:
                 print(f"ID: {task['id']}, Description: {task['description']}, Status: {task['status']}")

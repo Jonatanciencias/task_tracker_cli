@@ -1,10 +1,10 @@
 """ Task Management Module """
 import os
 from datetime import datetime
-from .utils import load_tasks, save_tasks, validate_status
+from .utils import load_tasks, save_tasks, validate_status  # Import validate_status from utils.py
 
 # Default task file and valid statuses
-TASKS_FILE = os.path.join(os.path.dirname(__file__), '..', 'tasks.json')
+TASKS_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'tasks.json'))
 VALID_STATUSES = ['to-do', 'in-progress', 'done']
 
 def add_task(description, file_path=TASKS_FILE):
@@ -48,7 +48,7 @@ def update_task(task_id, new_description, file_path=TASKS_FILE):
         save_tasks(file_path, tasks)
         print(f'Task {task_id} updated successfully.')
     else:
-        print(f'Error: Task with ID {task_id} not found.')
+        raise ValueError(f'Task with ID {task_id} not found.')
 
 def delete_task(task_id, file_path=TASKS_FILE):
     """
@@ -74,8 +74,9 @@ def status_task(task_id, new_status, file_path=TASKS_FILE):
     Returns:
     - None
     """
-    if not validate_status(new_status, VALID_STATUSES):
-        return
+    # Use validate_status from utils.py
+    if not validate_status(new_status):  # No need to pass VALID_STATUSES
+        raise ValueError(f"Invalid status '{new_status}'. Valid statuses are: {', '.join(VALID_STATUSES)}")
 
     tasks = load_tasks(file_path)
     task = next((task for task in tasks if task['id'] == task_id), None)
@@ -85,4 +86,4 @@ def status_task(task_id, new_status, file_path=TASKS_FILE):
         save_tasks(file_path, tasks)
         print(f'Status of task {task_id} updated to {new_status}.')
     else:
-        print(f'Error: Task with ID {task_id} not found.')
+        raise ValueError(f'Task with ID {task_id} not found.')

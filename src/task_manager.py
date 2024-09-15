@@ -90,7 +90,7 @@ def delete_task(task_id, file_path=TASKS_FILE):
     save_tasks(file_path, tasks)
     logging.info('Task %s deleted successfully.', task_id)
 
-def status_task(task_id, new_status, file_path=TASKS_FILE):
+def new_status_task(task_id, new_status, file_path=TASKS_FILE):
     """
     Updates the status of a task with the given task_id.
     Parameters:

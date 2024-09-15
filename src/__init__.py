@@ -11,7 +11,7 @@ from .task_manager import (
     add_task,
     update_task,
     delete_task,
-    status_task
+    new_status_task
 )
 
 # Set the path to the root directory and tasks.json file

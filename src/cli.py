@@ -31,7 +31,7 @@ VALID_STATUSES = ['to-do', 'in-progress', 'done']
 
 # Adjust imports for task management
 try:
-    from src.task_manager import load_tasks, add_task, update_task, delete_task, status_task
+    from src.task_manager import load_tasks, add_task, update_task, delete_task, new_status_task
     from src.utils import show_help, validate_status
 except ImportError as e:
     print(f"Import error: {e}")
@@ -109,7 +109,7 @@ def main():
             if not validate_status(new_status):
                 print(f"Error: '{new_status}' is not a valid status.")
             else:
-                status_task(task_id, new_status, TASKS_FILE)
+                new_status_task(task_id, new_status, TASKS_FILE)
                 logging.info('Status of task %s updated to %s', task_id, new_status)
                 print(f"Status of task {task_id} updated to '{new_status}'.")
 

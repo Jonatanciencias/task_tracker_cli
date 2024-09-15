@@ -3,7 +3,7 @@
 import unittest
 import os
 import logging
-from src.task_manager import add_task, update_task, delete_task, load_tasks, status_task
+from src.task_manager import add_task, update_task, delete_task, load_tasks, new_status_task
 
 # Configure logging for the test suite
 logging.basicConfig(filename='test_task_manager.log', level=logging.DEBUG, 
@@ -60,7 +60,7 @@ class TestTaskManager(unittest.TestCase):
         """Tests that task statuses are correctly updated."""
         logging.debug('Testing task status change.')
         add_task("Task to change status", file_path=self.tasks_file)
-        status_task(1, "done", file_path=self.tasks_file)
+        new_status_task(1, "done", file_path=self.tasks_file)
         tasks = load_tasks(file_path=self.tasks_file)
         self.assertEqual(tasks[0]['status'], "done")
         logging.info('Task status updated successfully.')

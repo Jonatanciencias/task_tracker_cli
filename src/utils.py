@@ -1,25 +1,33 @@
-""" Utility functions for the Task Tracker CLI application. """
 # src/utils.py
 
 import os
 import json
 import logging
 
-# Set up the log directory and file
-LOG_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'logs')
+# Determine root directory of the project whether in a virtual environment or installed globally
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+LOG_DIR = os.path.join(ROOT_DIR, 'logs')
+
+# Ensure the logs directory exists
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
 
 LOG_FILE = os.path.join(LOG_DIR, 'utils.log')
+
+# Configure logging
 logging.basicConfig(
     filename=LOG_FILE,
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
+    filemode='a'  # Use 'a' for appending logs
 )
 
-# File handling for tasks
-def load_tasks(file_path):
-    """Loads tasks from the specified JSON file."""
+# Default task file path in the project root
+DEFAULT_TASKS_FILE = os.path.join(ROOT_DIR, 'tasks.json')
+
+
+def load_tasks(file_path=DEFAULT_TASKS_FILE):
+    """Loads tasks from the specified JSON file or default if not provided."""
     logging.info("Loading tasks from: %s", file_path)
     if not os.path.exists(file_path):
         logging.warning("File not found at %s. Creating an empty one.", file_path)
@@ -33,17 +41,22 @@ def load_tasks(file_path):
         logging.error("Failed to decode file %s. The file may be corrupted. Error: %s", file_path, e)
         return []
 
-def save_tasks(file_path, tasks):
-    """Saves tasks to the specified JSON file."""
+
+def save_tasks(file_path=DEFAULT_TASKS_FILE, tasks=None):
+    """Saves tasks to the specified JSON file or default."""
+    if tasks is None:
+        tasks = []
     try:
         with open(file_path, 'w', encoding='utf-8') as file:
             json.dump(tasks, file, indent=4)
             logging.info("Tasks saved successfully to %s.", file_path)
-    except FileNotFoundError as e:
+    except Exception as e:
         logging.error("Failed to save tasks to %s. Error: %s", file_path, e)
+
 
 # Task status validation
 VALID_STATUSES = ['to-do', 'in-progress', 'done']
+
 
 def validate_status(status):
     """Validates if the provided status is one of the allowed statuses."""
@@ -52,6 +65,7 @@ def validate_status(status):
         return False
     logging.info("Status '%s' is valid.", status)
     return True
+
 
 # Helper functions
 def show_help():

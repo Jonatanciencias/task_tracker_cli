@@ -16,17 +16,22 @@ except ImportError as e:
     print(f"Import error: {e}")
     sys.exit(1)
 
-# Set up logging configuration to log to file in the 'logs' directory
-LOG_DIR = os.path.join(os.path.dirname(__file__), '..', 'logs')
+# Determine root directory of the project whether in a virtual environment or installed globally
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+LOG_DIR = os.path.join(ROOT_DIR, 'logs')
+
+# Ensure the logs directory exists
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
 
-log_file = os.path.join(LOG_DIR, 'task_cli.log')
+LOG_FILE = os.path.join(LOG_DIR, 'utils.log')
+
+# Configure logging
 logging.basicConfig(
-    filename=log_file,
-    level=logging.DEBUG,
+    filename=LOG_FILE,
+    level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    filemode='w'  # Use 'a' for appending logs
+    filemode='a'  # Use 'a' for appending logs
 )
 logging.debug('CLI started.')
 

@@ -10,17 +10,22 @@ from .utils import load_tasks, save_tasks, validate_status  # Import validate_st
 TASKS_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'tasks.json')
 VALID_STATUSES = ['to-do', 'in-progress', 'done']
 
-# Create a 'logs' folder if it doesn't exist
-LOG_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'logs')
+# Determine root directory of the project whether in a virtual environment or installed globally
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+LOG_DIR = os.path.join(ROOT_DIR, 'logs')
+
+# Ensure the logs directory exists
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
 
-# Set up logging to file
-LOG_FILE = os.path.join(LOG_DIR, 'task_manager.log')
+LOG_FILE = os.path.join(LOG_DIR, 'utils.log')
+
+# Configure logging
 logging.basicConfig(
     filename=LOG_FILE,
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
+    filemode='a'  # Use 'a' for appending logs
 )
 
 def add_task(description, file_path=TASKS_FILE):

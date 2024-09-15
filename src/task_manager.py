@@ -4,18 +4,19 @@
 import os
 from datetime import datetime
 import logging
-import site  # To determine the correct site-packages path
 from .utils import load_tasks, save_tasks, validate_status  # Import validate_status from utils.py
 
-# Determine the correct site-packages directory
-SITE_PACKAGES_DIR = site.getsitepackages()[0]
+# Determine the root directory dynamically (e.g., virtual environment)
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-# Default task file and valid statuses
-TASKS_FILE = os.path.join(SITE_PACKAGES_DIR, 'tasks.json')
+# Default task file in the root of the virtual environment
+TASKS_FILE = os.path.join(ROOT_DIR, 'tasks.json')
+
+# Valid statuses for the tasks
 VALID_STATUSES = ['to-do', 'in-progress', 'done']
 
-# Set the path for the logs directory
-LOG_DIR = os.path.join(SITE_PACKAGES_DIR, 'logs')
+# Set the path for the logs directory inside the root directory
+LOG_DIR = os.path.join(ROOT_DIR, 'logs')
 
 # Ensure the logs directory exists
 if not os.path.exists(LOG_DIR):

@@ -3,26 +3,28 @@
 import os
 import json
 import logging
-import site  # Import the site module to locate site-packages
 
-# Determine the site-packages directory where pip installs packages
-SITE_PACKAGES_DIR = site.getsitepackages()[0]  # This retrieves the first path, where packages are installed
+# Determine the root directory dynamically (e.g., virtual environment or project folder)
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-# Set paths for tasks.json and logs in the site-packages directory
-TASKS_FILE = os.path.join(SITE_PACKAGES_DIR, 'tasks.json')
+# Default task file in the root of the virtual environment
+TASKS_FILE = os.path.join(ROOT_DIR, 'tasks.json')
 
-# Set up the log directory and log file within the site-packages directory
-LOG_DIR = os.path.join(SITE_PACKAGES_DIR, 'logs')
+# Set the path for the logs directory inside the root directory
+LOG_DIR = os.path.join(ROOT_DIR, 'logs')
+
+# Ensure the logs directory exists
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
 
 LOG_FILE = os.path.join(LOG_DIR, 'utils.log')
 
-# Configure logging
+# Configure logging to the logs directory
 logging.basicConfig(
     filename=LOG_FILE,
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
+    filemode='a'  # Use 'a' to append logs
 )
 
 def load_tasks(file_path=TASKS_FILE):

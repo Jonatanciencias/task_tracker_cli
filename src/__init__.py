@@ -13,6 +13,10 @@ from .task_manager import (
     status_task
 )
 
+# Set the path to the root directory and tasks.json file
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))  
+task_file_path = os.path.join(root_dir, 'tasks.json')
+
 # Set up logging configuration
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -27,10 +31,6 @@ def check_task_file():
     """
     Verifies if the tasks.json file exists. If not, creates it in the root of the project.
     """
-    # Set the path to the root directory and tasks.json file
-    root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))  # Root directory of the project
-    task_file_path = os.path.join(root_dir, 'tasks.json')  # Path to tasks.json in the root
-
     if not os.path.exists(task_file_path):
         logger.info("tasks.json file does not exist in %s. Creating a new one...", root_dir)
         with open(task_file_path, 'w', encoding='utf-8') as f:

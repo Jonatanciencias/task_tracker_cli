@@ -48,7 +48,7 @@ pip install .
 4. Run help
 
 ```bash
-task-cli --help
+task-cli help
 ```
 
 ## Usage
@@ -108,6 +108,18 @@ Unit tests are included to ensure the core functions work correctly. To run the 
 ```bash
 python -m unittest discover tests
 ```
+
+### Important Notice:
+
+If you encounter no output or an error in the console while using the Task Tracker CLI, you can find detailed logs for troubleshooting.
+
+1. *Log Location*: Logs are automatically saved in the following directory within your virtual environment:
+
+```bash
+\venv\Lib\site-packages\logs
+```
+
+2. *Checking Logs*: If the CLI does not behave as expected or an error occurs, check the utils.log file inside the logs folder for detailed information
 
 ## Original Project
 

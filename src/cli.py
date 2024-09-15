@@ -5,9 +5,7 @@
 import sys
 import logging
 import os
-
-# Add the src directory to the system path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+import site  # Import site to find the correct site-packages path
 
 try:
     from src.task_manager import load_tasks, add_task, update_task, delete_task, status_task
@@ -16,17 +14,20 @@ except ImportError as e:
     print(f"Import error: {e}")
     sys.exit(1)
 
-# Determine root directory of the project whether in a virtual environment or installed globally
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-LOG_DIR = os.path.join(ROOT_DIR, 'logs')
+# Locate the default site-packages directory, which is used by pip
+SITE_PACKAGES_DIR = site.getsitepackages()[0]
+
+# Define the paths for tasks and logs
+TASKS_FILE = os.path.join(SITE_PACKAGES_DIR, 'tasks.json')
+LOG_DIR = os.path.join(SITE_PACKAGES_DIR, 'logs')
 
 # Ensure the logs directory exists
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
 
-LOG_FILE = os.path.join(LOG_DIR, 'utils.log')
+LOG_FILE = os.path.join(LOG_DIR, 'task_cli.log')
 
-# Configure logging
+# Configure logging to save to the logs directory
 logging.basicConfig(
     filename=LOG_FILE,
     level=logging.INFO,
@@ -59,7 +60,7 @@ def main():
             print("Usage: task-cli add <description>")
         else:
             description = ' '.join(sys.argv[2:])
-            task = add_task(description)
+            task = add_task(description, file_path=TASKS_FILE)
             logging.info('Task added: %s', task)
             print(f"Task added successfully: ID {task['id']}")
 
@@ -71,7 +72,7 @@ def main():
             if not validate_status(status_filter):
                 return
 
-            tasks = load_tasks(file_path='tasks.json')
+            tasks = load_tasks(file_path=TASKS_FILE)
             logging.debug("Loaded tasks: %s", tasks)
             filtered_tasks = [task for task in tasks if task['status'] == status_filter]
 
@@ -82,7 +83,7 @@ def main():
                 print(f"No tasks found with status '{status_filter}'.")
 
         else:
-            tasks = load_tasks(file_path='tasks.json')
+            tasks = load_tasks(file_path=TASKS_FILE)
             logging.debug("Loaded tasks: %s", tasks)
 
             if tasks:
@@ -97,7 +98,7 @@ def main():
         else:
             task_id = int(sys.argv[2])
             new_description = ' '.join(sys.argv[3:])
-            update_task(task_id, new_description)
+            update_task(task_id, new_description, file_path=TASKS_FILE)
             logging.info('Task %s updated', task_id)
             print(f"Task {task_id} updated successfully.")
 
@@ -106,7 +107,7 @@ def main():
             print("Usage: task-cli delete <ID>")
         else:
             task_id = int(sys.argv[2])
-            delete_task(task_id)
+            delete_task(task_id, file_path=TASKS_FILE)
             logging.info('Task %s deleted', task_id)
             print(f"Task {task_id} deleted successfully.")
 
@@ -120,7 +121,7 @@ def main():
             if not validate_status(new_status):
                 print(f"Error: '{new_status}' is not a valid status.")
             else:
-                status_task(task_id, new_status)
+                status_task(task_id, new_status, file_path=TASKS_FILE)
                 logging.info('Status of task %s updated to %s', task_id, new_status)
                 print(f"Status of task {task_id} updated to '{new_status}'.")
 

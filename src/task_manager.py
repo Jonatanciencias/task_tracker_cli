@@ -4,28 +4,31 @@
 import os
 from datetime import datetime
 import logging
+import site  # To determine the correct site-packages path
 from .utils import load_tasks, save_tasks, validate_status  # Import validate_status from utils.py
 
+# Determine the correct site-packages directory
+SITE_PACKAGES_DIR = site.getsitepackages()[0]
+
 # Default task file and valid statuses
-TASKS_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'tasks.json')
+TASKS_FILE = os.path.join(SITE_PACKAGES_DIR, 'tasks.json')
 VALID_STATUSES = ['to-do', 'in-progress', 'done']
 
-# Determine root directory of the project whether in a virtual environment or installed globally
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-LOG_DIR = os.path.join(ROOT_DIR, 'logs')
+# Set the path for the logs directory
+LOG_DIR = os.path.join(SITE_PACKAGES_DIR, 'logs')
 
 # Ensure the logs directory exists
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
 
-LOG_FILE = os.path.join(LOG_DIR, 'utils.log')
+LOG_FILE = os.path.join(LOG_DIR, 'task_manager.log')
 
-# Configure logging
+# Configure logging to the logs directory
 logging.basicConfig(
     filename=LOG_FILE,
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    filemode='a'  # Use 'a' for appending logs
+    filemode='a'  # Use 'a' to append logs
 )
 
 def add_task(description, file_path=TASKS_FILE):

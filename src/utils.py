@@ -3,12 +3,16 @@
 import os
 import json
 import logging
+import site  # Import the site module to locate site-packages
 
-# Determine root directory of the project whether in a virtual environment or installed globally
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-LOG_DIR = os.path.join(ROOT_DIR, 'logs')
+# Determine the site-packages directory where pip installs packages
+SITE_PACKAGES_DIR = site.getsitepackages()[0]  # This retrieves the first path, where packages are installed
 
-# Ensure the logs directory exists
+# Set paths for tasks.json and logs in the site-packages directory
+TASKS_FILE = os.path.join(SITE_PACKAGES_DIR, 'tasks.json')
+
+# Set up the log directory and log file within the site-packages directory
+LOG_DIR = os.path.join(SITE_PACKAGES_DIR, 'logs')
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
 
@@ -19,15 +23,10 @@ logging.basicConfig(
     filename=LOG_FILE,
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    filemode='a'  # Use 'a' for appending logs
 )
 
-# Default task file path in the project root
-DEFAULT_TASKS_FILE = os.path.join(ROOT_DIR, 'tasks.json')
-
-
-def load_tasks(file_path=DEFAULT_TASKS_FILE):
-    """Loads tasks from the specified JSON file or default if not provided."""
+def load_tasks(file_path=TASKS_FILE):
+    """Loads tasks from the specified JSON file."""
     logging.info("Loading tasks from: %s", file_path)
     if not os.path.exists(file_path):
         logging.warning("File not found at %s. Creating an empty one.", file_path)
@@ -41,22 +40,19 @@ def load_tasks(file_path=DEFAULT_TASKS_FILE):
         logging.error("Failed to decode file %s. The file may be corrupted. Error: %s", file_path, e)
         return []
 
-
-def save_tasks(file_path=DEFAULT_TASKS_FILE, tasks=None):
-    """Saves tasks to the specified JSON file or default."""
+def save_tasks(file_path=TASKS_FILE, tasks=None):
+    """Saves tasks to the specified JSON file."""
     if tasks is None:
         tasks = []
     try:
         with open(file_path, 'w', encoding='utf-8') as file:
             json.dump(tasks, file, indent=4)
             logging.info("Tasks saved successfully to %s.", file_path)
-    except Exception as e:
+    except FileNotFoundError as e:
         logging.error("Failed to save tasks to %s. Error: %s", file_path, e)
-
 
 # Task status validation
 VALID_STATUSES = ['to-do', 'in-progress', 'done']
-
 
 def validate_status(status):
     """Validates if the provided status is one of the allowed statuses."""
@@ -65,7 +61,6 @@ def validate_status(status):
         return False
     logging.info("Status '%s' is valid.", status)
     return True
-
 
 # Helper functions
 def show_help():

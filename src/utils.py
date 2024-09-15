@@ -44,24 +44,27 @@ def validate_status(status):
 
 # Helper functions
 def show_help():
-   def show_help():
     """
     Displays the available commands in the CLI, with instructions on how to use the script.
     """
     help_message = """
-    ****************************************
-    *   ████████╗██╗  ██╗ █████╗ ██╗  ██╗  *
-    *   ╚══██╔══╝██║  ██║██╔══██╗██║ ██╔╝  *
-    *      ██║   ███████║███████║█████╔╝   *
-    *      ██║   ██╔══██║██╔══██║██╔═██╗   *
-    *      ██║   ██║  ██║██║  ██║██║  ██╗  *
-    *      ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝  *
-    ****************************************
-    *                                      *
-    *      Task Tracker CLI  v2.0.0        *
-    *  Keep track of your tasks easily!    *
-    *                                      *
-    ****************************************
+    **************************************************
+    *                                                *
+    *  88888888888     d8888  .d8888b.  888    d8P   *
+    *      888        d88888 d88P  Y88b 888   d8P    *
+    *      888       d88P888 Y88b.      888  d8P     *
+    *      888      d88P 888  "Y888b.   888d88K      *
+    *      888     d88P  888     "Y88b. 8888888b     *
+    *      888    d88P   888       "888 888  Y88b    *
+    *      888   d8888888888 Y88b  d88P 888   Y88b   *
+    *      888  d88P     888  "Y8888P"  888    Y88b  *
+    *                                                *
+    **************************************************
+    *                                                *
+    *             Task Tracker CLI  v2.0.0           *
+    *          Keep track of your tasks easily!      *
+    *                                                *
+    **************************************************
     
     Commands:
     - task-cli add <description>         Add a new task.

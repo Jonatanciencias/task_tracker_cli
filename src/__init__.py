@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Metadata for the package
-__version__ = "1.0.0"
+__version__ = "2.0.0"
 __author__ = "Jonatan Garcia"
 __license__ = "MIT"
 
@@ -32,7 +32,7 @@ def check_task_file():
     task_file_path = os.path.join(root_dir, 'tasks.json')  # Path to tasks.json in the root
 
     if not os.path.exists(task_file_path):
-        logger.info(f"tasks.json file does not exist in {root_dir}. Creating a new one...")
+        logger.info("tasks.json file does not exist in %s. Creating a new one...", root_dir)
         with open(task_file_path, 'w', encoding='utf-8') as f:
             json.dump([], f)  # Create an empty JSON array to store tasks
 

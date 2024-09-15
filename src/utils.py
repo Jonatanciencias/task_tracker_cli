@@ -13,8 +13,10 @@ def load_tasks(file_path):
     """Loads tasks from the specified JSON file."""
     print(f"Loading tasks from: {file_path}")
     if not os.path.exists(file_path):
+        print(f"File not found at {file_path}. Creating an empty one.")
         return []
     try:
+        print(f"Loading tasks from: {file_path}")
         with open(file_path, 'r', encoding='utf-8') as file:
             tasks = json.load(file)
             print(f"Loaded tasks: {tasks}")  # Log what is loaded

@@ -4,7 +4,7 @@ from datetime import datetime
 from .utils import load_tasks, save_tasks, validate_status  # Import validate_status from utils.py
 
 # Default task file and valid statuses
-TASKS_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'tasks.json'))
+TASKS_FILE = os.path.join(os.path.dirname(__file__), '..', 'tasks.json')
 VALID_STATUSES = ['to-do', 'in-progress', 'done']
 
 def add_task(description, file_path=TASKS_FILE):

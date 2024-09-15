@@ -11,11 +11,14 @@ import json
 # File handling for tasks
 def load_tasks(file_path):
     """Loads tasks from the specified JSON file."""
+    print(f"Loading tasks from: {file_path}")
     if not os.path.exists(file_path):
         return []
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
-            return json.load(file)
+            tasks = json.load(file)
+            print(f"Loaded tasks: {tasks}")  # Log what is loaded
+            return tasks
     except json.JSONDecodeError as e:
         print(f"Error: Failed to decode file {file_path}. The file may be corrupted.")
         print(f"Error loading tasks: {e}")

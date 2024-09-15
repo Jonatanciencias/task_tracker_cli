@@ -27,6 +27,7 @@ def add_task(description, file_path=TASKS_FILE):
     }
     tasks.append(task)
     save_tasks(file_path, tasks)
+    print(f"Task added: {task}")
     return task
 
 def update_task(task_id, new_description, file_path=TASKS_FILE):

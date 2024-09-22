@@ -3,7 +3,7 @@
 
 # Task Tracker CLI
 
-![Help screenshoot](src/screenshot_help.png)
+[![Help screenshoot](src/screenshot_help.png)](https://github.com/Jonatanciencias/task_tracker_cli/blob/551d2bdf3b49f1278800a0e84c826191bc975ea1/src/screenshot_help.png)
 
 A simple yet efficient task tracker that allows you to manage your tasks from the command line. **Task Tracker CLI** helps you organize and keep track of your daily tasks, allowing you to add, update, delete, and change task statuses directly from the terminal.
 

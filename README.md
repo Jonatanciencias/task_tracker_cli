@@ -40,10 +40,15 @@ python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
+4. Install the project using setup.py:
+```bash
+pip install .
+```
+
 4. Run help
 
 ```bash
-python -m src.cli
+task-cli help
 ```
 
 ## Usage
@@ -53,39 +58,47 @@ python -m src.cli
 1. **Add Task**:
 
 ```bash
-python -m src.cli add "Task description"
+task-cli add "Task description"
 
 ```
 
 2. **List Tasks**:
 
 ```bash
-python -m src.cli list
+task-cli list
 
 ```
 3. List Tasks by Status:  
 
 ```bash
-python -m src.cli list [status]
+task-cli list done
+task-cli list todo
+task-cli list in-progress
+
 ```
 
 4. **Update Task**:
 
 ```bash
-python -m src.cli update <ID> "New description"
+task-cli update <ID> "New description"
 
 ```
 
 5. **Delete Task**:
 
 ```bash
-python -m src.cli delete <ID>
+task-cli delete <ID>
 ```
 
 6. **Change Status**:
 
 ```bash
-python -m src.cli new_status <ID> <status>
+task-cli new_status <ID> <status>
+```
+
+7. **Uninstal**:
+```bash
+pip uninstall task-tracker-cli
 ```
 
 ## Testing
@@ -95,6 +108,18 @@ Unit tests are included to ensure the core functions work correctly. To run the 
 ```bash
 python -m unittest discover tests
 ```
+
+### Important Notice:
+
+If you encounter no output or an error in the console while using the Task Tracker CLI, you can find detailed logs for troubleshooting.
+
+1. *Log Location*: Logs are automatically saved in the following directory within your virtual environment:
+
+```bash
+\venv\Lib\site-packages\logs
+```
+
+2. *Checking Logs*: If the CLI does not behave as expected or an error occurs, check the utils.log file inside the logs folder for detailed information
 
 ## Original Project
 

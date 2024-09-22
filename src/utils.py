@@ -1,84 +1,110 @@
 # src/utils.py
-"""
-future versions:
-- Input validation functions (e.g., checking if a task ID is valid).
-- File handling helpers (e.g., checking if the task file exists).
-- Formatting utilities (e.g., formatting dates or task output).
-"""
+
 import os
 import json
+import logging
 
-# File handling for tasks
-def load_tasks(file_path):
+# Determine the root directory dynamically (e.g., virtual environment or project folder)
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Default task file in the root of the virtual environment
+TASKS_FILE = os.path.join(ROOT_DIR, 'tasks.json')
+
+# Set the path for the logs directory inside the root directory
+LOG_DIR = os.path.join(ROOT_DIR, 'logs')
+
+# Ensure the logs directory exists
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+
+LOG_FILE = os.path.join(LOG_DIR, 'utils.log')
+
+# Configure logging to the logs directory
+logging.basicConfig(
+    filename=LOG_FILE,
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filemode='a'  # Use 'a' to append logs
+)
+
+def load_tasks(file_path=TASKS_FILE):
     """Loads tasks from the specified JSON file."""
+    logging.info("Loading tasks from: %s", file_path)
     if not os.path.exists(file_path):
+        logging.warning("File not found at %s. Creating an empty one.", file_path)
         return []
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
-            return json.load(file)
+            tasks = json.load(file)
+            logging.info("Loaded tasks: %s", tasks)
+            return tasks
     except json.JSONDecodeError as e:
-        print(f"Error: Failed to decode file {file_path}. The file may be corrupted.")
-        print(f"Error loading tasks: {e}")
+        logging.error("Failed to decode file %s. The file may be corrupted. Error: %s", file_path, e)
         return []
 
-def save_tasks(file_path, tasks):
+def save_tasks(file_path=TASKS_FILE, tasks=None):
     """Saves tasks to the specified JSON file."""
+    if tasks is None:
+        tasks = []
     try:
         with open(file_path, 'w', encoding='utf-8') as file:
             json.dump(tasks, file, indent=4)
-    except json.JSONDecodeError as e:
-        print(f"Error saving tasks: {e}")
+            logging.info("Tasks saved successfully to %s.", file_path)
+    except FileNotFoundError as e:
+        logging.error("Failed to save tasks to %s. Error: %s", file_path, e)
 
 # Task status validation
-def validate_status(status, valid_statuses):
+VALID_STATUSES = ['to-do', 'in-progress', 'done']
+
+def validate_status(status):
     """Validates if the provided status is one of the allowed statuses."""
-    if status not in valid_statuses:
-        print(f"Error: '{status}' is not a valid status. Valid statuses are: {', '.join(valid_statuses)}")
+    if status not in VALID_STATUSES:
+        logging.error("Invalid status '%s'. Valid statuses are: %s", status, ', '.join(VALID_STATUSES))
         return False
+    logging.info("Status '%s' is valid.", status)
     return True
 
+# Helper functions
 def show_help():
     """
     Displays the available commands in the CLI, with instructions on how to use the script.
     """
     help_message = """
-    ****************************************
-    *                                      *
-    *   ████████╗ █████╗ ███████╗██╗  ██╗  *
-    *   ╚══██╔══╝██╔══██╗██╔════╝██║  ██║  *
-    *      ██║   ███████║███████╗███████║  *
-    *      ██║   ██╔══██║╚════██║██╔══██║  *
-    *      ██║   ██║  ██║███████║██║  ██║  *
-    *      ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝  *
-    *                                      *
-    ****************************************
-    *                                      *
-    *      Task Tracker CLI  v1.0.0        *
-    *  Keep track of your tasks easily!    *
-    *                                      *
-    ****************************************
+    **************************************************
+    *                                                *
+    *  88888888888     d8888  .d8888b.  888    d8P   *
+    *      888        d88888 d88P  Y88b 888   d8P    *
+    *      888       d88P888 Y88b.      888  d8P     *
+    *      888      d88P 888  "Y888b.   888d88K      *
+    *      888     d88P  888     "Y88b. 8888888b     *
+    *      888    d88P   888       "888 888  Y88b    *
+    *      888   d8888888888 Y88b  d88P 888   Y88b   *
+    *      888  d88P     888  "Y8888P"  888    Y88b  *
+    *                                                *
+    **************************************************
+    *                                                *
+    *             Task Tracker CLI  v2.0.0           *
+    *          Keep track of your tasks easily!      *
+    *                                                *
+    **************************************************
     
     Commands:
-    - add <description>         Add a new task.
-    - list [status]             List all tasks or tasks with a specific status.
-    - update <ID> <desc>        Update a task description.
-    - delete <ID>               Delete a task.
-    - new_status <ID> <status>  Change task status.
+    - task-cli add <description>         Add a new task.
+    - task-cli list [status]             List all tasks or tasks with a specific status.
+    - task-cli update <ID> <desc>        Update a task description.
+    - task-cli delete <ID>               Delete a task.
+    - task-cli new_status <ID> <status>  Change task status.
+    
     Usage:
-    - python -m src.cli <command> [options]
-
-    Commands:
-    - add <description>: Add a new task.
-    - list: List all tasks.
-    - update <ID> <description>: Update the task with the specified ID.
-    - delete <ID>: Delete the task with the specified ID.
-    - new_status <ID> <status>: Change the status of the task.
+    - task-cli <command> [options]
 
     Examples:
-    - python -m src.cli add "Finish the report"
-    - python -m src.cli list
-    - python -m src.cli update 1 "Review the report"
-    - python -m src.cli delete 1
-    - python -m src.cli new_status 1 done
+    - task-cli add "Finish the report"
+    - task-cli list
+    - task-cli list done
+    - task-cli update 1 "Review the report"
+    - task-cli delete 1
+    - task-cli new_status 1 done
     """
+    logging.info("Help message displayed.")
     print(help_message)
